@@ -313,6 +313,8 @@ class AggOrderConverter(OrderConverter):
             if tok._token._get_repr_name() != "Integer":
                 sort[tok.field] = tok.order
             else:
+                if len(self.query.selected_columns.sql_tokens) == 0:
+                    return {}
                 # If the token is an integer, it is a column index
                 # and we need to use the column name from the selected columns (column numbers start from 1 not 0!)
                 sort[self.query.selected_columns.sql_tokens[int(tok._token.value)-1].field] = tok.order
