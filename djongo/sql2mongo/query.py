@@ -216,7 +216,8 @@ class SelectQuery(DQLQuery):
 
         if self.order:
             self.order.__class__ = AggOrderConverter
-            pipeline.append(self.order.to_mongo())
+            if order_to_mongo := self.order.to_mongo():
+                pipeline.append(order_to_mongo)
 
         if self.offset:
             self.offset.__class__ = AggOffsetConverter
